@@ -124,7 +124,8 @@ export namespace HttpDataProvider {
                     switch (this.paramType) {
                         case ParamType.Json: {
                             if (JustDetective.simpleDetect(this.postBody)) {
-                                options.body = this.postBody;
+                                options.body = JSON.stringify(this.postBody);
+                                this.setHeader('Content-Type', 'application/json');
                             }
                             break;
                         }
