@@ -1,4 +1,4 @@
-import { IMapSource } from '../../../models/datasource';
+import { Models } from '../../../models/datasource';
 
 export enum DataSourceType {
     Remote,
@@ -8,7 +8,7 @@ export enum DataSourceType {
 export abstract class DataSourceProvider {
     private name: string;
     private sourceType: DataSourceType;
-    private data: IMapSource[];
+    private data: Models.IMapSource[];
     constructor(name: string, sourceType: DataSourceType) {
         this.name = name;
         this.sourceType = sourceType;
@@ -17,13 +17,13 @@ export abstract class DataSourceProvider {
     public getData() {
         return this.data;
     }
-    public addData(data: IMapSource) {
+    public addData(data: Models.IMapSource) {
         this.data.push(data);
     }
     public clearData() {
         this.data = [];
     }
     public getDataByKey(key: string) {
-        return this.data.find((data: IMapSource) => data.key === key)!.value;
+        return this.data.find((data: Models.IMapSource) => data.key === key)!.value;
     }
 }

@@ -2,7 +2,7 @@ import { Pool, PoolConfig, PoolClient, Client } from 'pg';
 import { Configurations, ConfigSections } from 'magetaro';
 import { JustDetective } from 'justtools';
 import { TransResultDecoder, TransDecoderType } from '../transaction.result.decoder';
-import { IMapSource } from '../../../../models/datasource';
+import { Models } from '../../../../models/models';
 import { StarQuery } from '../../../../Utils/starquery';
 
 export interface IConnected {
@@ -28,9 +28,9 @@ export class TransactionManager {
 
     private session: IConnected | null = null;
 
-    private toExcuteQuery: IMapSource[];
+    private toExcuteQuery: Models.IMapSource[];
 
-    private result: IMapSource[] = [];
+    private result: Models.IMapSource[] = [];
 
     private mode: TransactionMode;
 
@@ -50,15 +50,15 @@ export class TransactionManager {
         this.toExcuteQuery.push({ key: key, value: str });
     }
 
-    public getToExcuteQuery(): IMapSource[] {
+    public getToExcuteQuery(): Models.IMapSource[] {
         return this.toExcuteQuery;
     }
 
-    public getResult(dataType: TransDecoderType): IMapSource[] {
+    public getResult(dataType: TransDecoderType): Models.IMapSource[] {
         const output: any[] = [];
         switch (dataType) {
             case TransDecoderType.Postgre: {
-                this.result.map((v: IMapSource) => {
+                this.result.map((v: Models.IMapSource) => {
                     output.push({ key: v.key, value: v.value.rows });
                 });
                 break;
@@ -229,7 +229,7 @@ export class TransactionManager {
             const connectedSession = this.session!;
             if (JustDetective.simpleDetect(connectedSession)) {
                 const tasks: any[] = [];
-                this.getToExcuteQuery().map((query: IMapSource) => {
+                this.getToExcuteQuery().map((query: Models.IMapSource) => {
                     tasks.push(this.promiseQueryTask(connectedSession!.client, query.value));
                 });
                 try {

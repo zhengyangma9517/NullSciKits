@@ -1,21 +1,23 @@
-import { ILooseObj } from '../../models/looseobject';
+import { Models } from '../../models/datasource';
 
-export class LooseObjKit {
-    private object: ILooseObj = {};
+export namespace LooseObject {
+    export class LooseObjKit {
+        private object: Models.ILooseObj = {};
 
-    public constructor() {
-        this.object = {};
-    }
+        public constructor() {
+            this.object = {};
+        }
 
-    public setAttr(key: string, content: any) {
-        this.object[key] = content;
-    }
+        public setAttr(key: string, content: any) {
+            this.object[key] = content;
+        }
 
-    public deleAttr(key: string) {
-        delete this.object[key];
-    }
+        public deleAttr(key: string) {
+            delete this.object[key];
+        }
 
-    public get() {
-        return this.object;
+        public get() {
+            return this.object;
+        }
     }
 }
