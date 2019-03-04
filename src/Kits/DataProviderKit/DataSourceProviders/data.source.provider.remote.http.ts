@@ -84,6 +84,7 @@ export namespace HttpDataProvider {
 
         public async fetch(key: any = 'http') {
             if (!JustDetective.simpleDetect(this.uri)) {
+                console.log('Warning: No Uri Provided.');
                 return;
             }
             switch (this.method) {
@@ -124,7 +125,7 @@ export namespace HttpDataProvider {
                     switch (this.paramType) {
                         case ParamType.Json: {
                             if (JustDetective.simpleDetect(this.postBody)) {
-                                options.body = JSON.stringify(this.postBody);
+                                options.body = this.postBody;
                                 this.setHeader('Content-Type', 'application/json');
                             }
                             break;
@@ -148,6 +149,14 @@ export namespace HttpDataProvider {
             }
         }
         public async clear() {
+            this.uri = '';
+            this.urlParams = [];
+            this.headers = new LooseObject.LooseObjKit();
+            this.method = MethodType.Get;
+            this.paramType = ParamType.URLEncode;
+            this.postBody = {};
+            this.responseAsJson = true;
+            this.resolveWithFullResponse = true;
             this.clearData();
         }
     }
