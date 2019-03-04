@@ -1,7 +1,7 @@
 import * as rp from 'request-promise';
 
 import { DataSourceProviderRemote } from './data.source.provider.remote';
-import { LooseObjKit } from '../LooseObjectKit/loose.object.kit';
+import { LooseObjKit } from '../../LooseObjectKit/loose.object.kit';
 import { IMapSource } from '../../../models/datasource';
 import { JustDetective } from 'justtools';
 

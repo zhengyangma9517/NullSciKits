@@ -1,4 +1,4 @@
-import { ILooseObj } from '../../../models/looseobject';
+import { ILooseObj } from '../../models/looseobject';
 
 export class LooseObjKit {
     private object: ILooseObj = {};
