@@ -32,6 +32,8 @@ export namespace HttpDataProvider {
         private urlParams: Models.IMapSource[] = [];
         private paramType: ParamType = ParamType.URLEncode;
         private method: MethodType = MethodType.Get;
+        private resolveWithFullResponse: boolean = true;
+        private responseAsJson: boolean = true;
 
         public constructor() {
             super('HttpProvider');
@@ -41,6 +43,18 @@ export namespace HttpDataProvider {
             headers.map((header: Models.IMapSource) => {
                 this.headers.setAttr(header.key, header.value);
             });
+        }
+
+        public setHeader(key: string, value: any) {
+            this.headers.setAttr(key, value);
+        }
+
+        public setResponseAsJson(value: boolean) {
+            this.responseAsJson = value;
+        }
+
+        public setresolveWithFullResponse(value: boolean) {
+            this.resolveWithFullResponse = value;
         }
 
         public setUri(uri: string) {
@@ -78,7 +92,8 @@ export namespace HttpDataProvider {
                     options.method = 'GET';
                     options.uri = this.uri;
                     options.headers = this.headers.get();
-                    options.json = true;
+                    options.json = this.responseAsJson;
+                    options.resolveWithFullResponse = this.resolveWithFullResponse;
                     if (this.urlParams.length > 0) {
                         this.uri = `${this.uri}?`;
                         for (let i = 0; i < this.urlParams.length; i++) {
@@ -98,7 +113,8 @@ export namespace HttpDataProvider {
                     options.method = 'POST';
                     options.uri = this.uri;
                     options.headers = this.headers.get();
-                    options.json = true;
+                    options.json = this.responseAsJson;
+                    options.resolveWithFullResponse = this.resolveWithFullResponse;
                     if (this.urlParams.length > 0) {
                         this.uri = `${this.uri}?`;
                         for (let i = 0; i < this.urlParams.length; i++) {
