@@ -3,7 +3,7 @@ import { TransactionManager, TransactionMode } from '../Transactions/PostgreSQLT
 import { Pool } from 'pg';
 import { Configurations } from 'magetaro';
 import { TransDecoderType } from '../Transactions/transaction.result.decoder';
-import { Models } from '../../../models/datasource';
+import { Models } from '../../../models/models';
 
 export namespace PgDataProvider {
     export class DataSourceProviderPostgre extends DataSourceProviderRemote {

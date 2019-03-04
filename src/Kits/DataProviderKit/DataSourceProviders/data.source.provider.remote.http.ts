@@ -2,7 +2,7 @@ import * as rp from 'request-promise';
 
 import { DataSourceProviderRemote } from './data.source.provider.remote';
 import { LooseObject } from '../../LooseObjectKit/loose.object.kit';
-import { Models } from '../../../models/datasource';
+import { Models } from '../../../models/models';
 import { JustDetective } from 'justtools';
 
 export namespace HttpDataProvider {

@@ -1,4 +1,4 @@
-import { Models } from '../../../models/datasource';
+import { Models } from '../../../models/models';
 
 export enum DataSourceType {
     Remote,
