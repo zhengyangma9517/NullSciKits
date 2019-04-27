@@ -2,7 +2,7 @@ import { Models } from '../../models/models';
 
 export namespace LooseObject {
     export class LooseObjKit {
-        private object: Models.ILooseObj = {};
+        private object: Models.ILooseMapObj<any> = {};
 
         public constructor() {
             this.object = {};

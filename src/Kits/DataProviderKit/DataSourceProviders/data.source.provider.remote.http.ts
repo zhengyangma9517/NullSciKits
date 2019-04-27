@@ -3,7 +3,7 @@ import * as rp from 'request-promise';
 import { DataSourceProviderRemote } from './data.source.provider.remote';
 import { LooseObject } from '../../LooseObjectKit/loose.object.kit';
 import { Models } from '../../../models/models';
-import { JustDetective } from 'justtools';
+import { JustTools } from '../../JustToolKit/just.tool.kit';
 
 export namespace HttpDataProvider {
     export enum ParamType {
@@ -29,7 +29,7 @@ export namespace HttpDataProvider {
         private headers: LooseObject.LooseObjKit = new LooseObject.LooseObjKit();
         private uri: string | null = null;
         private postBody: any;
-        private urlParams: Models.IMapSource[] = [];
+        private urlParams: Models.IKeyValue<any>[] = [];
         private paramType: ParamType = ParamType.URLEncode;
         private method: MethodType = MethodType.Get;
         private resolveWithFullResponse: boolean = true;
@@ -39,8 +39,8 @@ export namespace HttpDataProvider {
             super('HttpProvider');
         }
 
-        public setHeaders(headers: Models.IMapSource[]) {
-            headers.map((header: Models.IMapSource) => {
+        public setHeaders(headers: Models.IKeyValue<any>[]) {
+            headers.map((header: Models.IKeyValue<any>) => {
                 this.headers.setAttr(header.key, header.value);
             });
         }
@@ -69,7 +69,7 @@ export namespace HttpDataProvider {
         }
 
         public setPostBody(body: any) {
-            if (JustDetective.simpleDetect(body)) {
+            if (JustTools.JustDetective.simpleDetect(body)) {
                 this.postBody = body;
             }
         }
@@ -83,7 +83,7 @@ export namespace HttpDataProvider {
         }
 
         public async fetch(key: any = 'http') {
-            if (!JustDetective.simpleDetect(this.uri)) {
+            if (!JustTools.JustDetective.simpleDetect(this.uri)) {
                 console.log('Warning: No Uri Provided.');
                 return;
             }
@@ -124,7 +124,7 @@ export namespace HttpDataProvider {
                     }
                     switch (this.paramType) {
                         case ParamType.Json: {
-                            if (JustDetective.simpleDetect(this.postBody)) {
+                            if (JustTools.JustDetective.simpleDetect(this.postBody)) {
                                 options.body = this.postBody;
                                 this.setHeader('Content-Type', 'application/json');
                             }

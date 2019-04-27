@@ -1,5 +1,4 @@
 import { DataSourceProvider, DataSourceType } from './data.source.provider';
-// import { JustDetective } from 'justtools';
 
 export class DataSourceProviderRemote extends DataSourceProvider {
     constructor(name: string) {

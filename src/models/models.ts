@@ -1,21 +1,26 @@
 export namespace Models {
     /**
- * key: string, value: any
-*/
-    export interface IMapSource {
+     * generic
+     * key: string, value: any
+    */
+    export interface IKeyValue<T> {
         key: string;
-        value: any;
+        value: T;
     }
 
     /**
+     * generic
      * key: string, value: data[]
     */
-    export interface IDataSource {
+    export interface IDataSource<T> {
         key: string;
-        data: any[];
+        data: T[];
     }
 
-    export interface ILooseObj {
-        [key: string]: any;
+    /**
+     * generic
+    */
+    export interface ILooseMapObj<T> {
+        [key: string]: T;
     }
 }

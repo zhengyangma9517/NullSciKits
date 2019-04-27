@@ -37,9 +37,9 @@ export namespace PgDataProvider {
                 this.sourceManager.clearResult();
                 await this.sourceManager.connect();
                 await this.sourceManager.excuteQuery();
-                const result: Models.IMapSource[] = this.sourceManager.getResult(TransDecoderType.Postgre);
+                const result: Models.IKeyValue<any>[] = this.sourceManager.getResult(TransDecoderType.Postgre);
                 // console.log(result);
-                result.map((source: Models.IMapSource) => {
+                result.map((source: Models.IKeyValue<any>) => {
                     this.addData(source);
                 });
             } catch (e) {

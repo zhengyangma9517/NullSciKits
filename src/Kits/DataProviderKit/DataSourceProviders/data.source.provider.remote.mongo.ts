@@ -1,5 +1,6 @@
 import { DataSourceProviderRemote } from './data.source.provider.remote';
 import { Configurations, MagicShow, ConfigSections, IMagicShow, MagicShowFactory, SpellStyle, IMongoParams, MongoOption } from 'magetaro';
+import { JustDetective } from 'justtools';
 
 export namespace MongoDataProvider {
     export class DataSourceProviderMongo extends DataSourceProviderRemote {
@@ -22,13 +23,19 @@ export namespace MongoDataProvider {
             this.sourceManager = MagicShowFactory(showConfig);
         }
 
-        public async find(query: any, collection: string) {
+        public async find(query: any, collection: string, limit?: number, project?: any) {
             const options: IMongoParams = {
                 query: query,
                 collectname: collection,
                 credentials: this.credentials,
                 option: MongoOption.Find
             };
+            if (JustDetective.simpleDetect(limit)) {
+                options.limit = limit;
+            }
+            if (JustDetective.simpleDetect(project)) {
+                options.project = project;
+            }
             this.sourceManager.setInput(options);
             await this.sourceManager.itsShowTime();
             this.addData({

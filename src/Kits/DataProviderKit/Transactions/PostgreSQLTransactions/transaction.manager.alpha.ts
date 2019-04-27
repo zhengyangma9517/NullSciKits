@@ -1,6 +1,6 @@
 import { Pool, PoolConfig, PoolClient, Client } from 'pg';
 import { Configurations, ConfigSections } from 'magetaro';
-import { JustDetective } from 'justtools';
+import { JustTools } from '../../../JustToolKit/just.tool.kit';
 import { TransResultDecoder, TransDecoderType } from '../transaction.result.decoder';
 import { Models } from '../../../../models/models';
 import { StarQuery } from '../../../../Utils/starquery';
@@ -28,9 +28,9 @@ export class TransactionManager {
 
     private session: IConnected | null = null;
 
-    private toExcuteQuery: Models.IMapSource[];
+    private toExcuteQuery: Models.IKeyValue<any>[];
 
-    private result: Models.IMapSource[] = [];
+    private result: Models.IKeyValue<any>[] = [];
 
     private mode: TransactionMode;
 
@@ -50,15 +50,15 @@ export class TransactionManager {
         this.toExcuteQuery.push({ key: key, value: str });
     }
 
-    public getToExcuteQuery(): Models.IMapSource[] {
+    public getToExcuteQuery(): Models.IKeyValue<any>[] {
         return this.toExcuteQuery;
     }
 
-    public getResult(dataType: TransDecoderType): Models.IMapSource[] {
+    public getResult(dataType: TransDecoderType): Models.IKeyValue<any>[] {
         const output: any[] = [];
         switch (dataType) {
             case TransDecoderType.Postgre: {
-                this.result.map((v: Models.IMapSource) => {
+                this.result.map((v: Models.IKeyValue<any>) => {
                     output.push({ key: v.key, value: v.value.rows });
                 });
                 break;
@@ -116,7 +116,7 @@ export class TransactionManager {
 
     // release session, 非纯函数
     public releaseSession() {
-        if (JustDetective.simpleDetect(this.session)) {
+        if (JustTools.JustDetective.simpleDetect(this.session)) {
             this.session!.done();
             this.clearQuery();
             this.log('TransactionManager: Session Released');
@@ -227,9 +227,9 @@ export class TransactionManager {
     public async excuteQuery(): Promise<any> {
         if (this.getToExcuteQuery().length > 0) {
             const connectedSession = this.session!;
-            if (JustDetective.simpleDetect(connectedSession)) {
+            if (JustTools.JustDetective.simpleDetect(connectedSession)) {
                 const tasks: any[] = [];
-                this.getToExcuteQuery().map((query: Models.IMapSource) => {
+                this.getToExcuteQuery().map((query: Models.IKeyValue<any>) => {
                     tasks.push(this.promiseQueryTask(connectedSession!.client, query.value));
                 });
                 try {
@@ -255,8 +255,8 @@ export class TransactionManager {
                             this.log('TransactionManager: Star Mode');
                             for (let i = 0; i < tasks.length; i++) {
                                 if (i > 0) {
-                                    if (JustDetective.simpleDetect(this.getToExcuteQuery()[i].value)
-                                        && JustDetective.simpleDetect(this.result[i - 1].value.rows[0])) {
+                                    if (JustTools.JustDetective.simpleDetect(this.getToExcuteQuery()[i].value)
+                                        && JustTools.JustDetective.simpleDetect(this.result[i - 1].value.rows[0])) {
                                         this.getToExcuteQuery()[i].value =
                                             StarQuery.starToCommon(this.getToExcuteQuery()[i].value, this.result[i - 1].value.rows[0]);
                                         tasks[i] = this.promiseQueryTask(connectedSession!.client, this.getToExcuteQuery()[i].value);
